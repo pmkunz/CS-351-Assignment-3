@@ -1,7 +1,12 @@
-Information about project
+Paige Kunz & Deana Mendoza
 
+Description of our implementation:
+    -
 
+Instructions on how to compile and run our program:
+    -
 
-Output of DFS traversal
+Any assumptions or design decisions we made?
+    -
 
-Output of BFS traversal
+See the output of the DFS and BFS traversals in BFS.txt and DFS.txt respectively.

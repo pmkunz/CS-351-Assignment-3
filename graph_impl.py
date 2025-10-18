@@ -8,7 +8,8 @@ from graph_interfaces import IEdge, IGraph, IVertex
 
 T = TypeVar('T')
 
-class Graph[T](IGraph[T]):
+# class Graph[T](IGraph[T]):
+class Graph(IGraph):
 
     def __init__(self):
         self._vertices = []
@@ -39,11 +40,6 @@ class Graph[T](IGraph[T]):
 
     def add_edge(self,edge: IEdge, from_vertex_name: Optional[str] = None) -> None:
         """ Add edge if it's connected to the same destination """
-        # for e in self._edges:
-        #     if e.get_name() == edge.get_name() and e.get_destination().get_name() == edge.get_destination().get_name():
-        #         return  # if it is a duplicate, do nothing
-        #     self._edges.append(edge)
-
         if from_vertex_name:
             for vertex in self._vertices:
                 if vertex.get_name() == from_vertex_name:
