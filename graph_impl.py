@@ -11,7 +11,7 @@ T = TypeVar('T')
 class Graph[T](IGraph[T]):
 
     def __init__(self):
-        self.vertices = []
+        self._vertices = []
 
     def get_vertices(self) -> List[IVertex]:
         return list(self._vertices)
@@ -24,18 +24,31 @@ class Graph[T](IGraph[T]):
         return edges
 
     def add_vertex(self, vertex: IVertex) -> None:
-        pass
+        self._vertices.append(vertex)
     
     def remove_vertex(self, vertex_name: str) -> None:
-        pass
+        for vertex in list(self._vertices):
+            if vertex.get_name() == vertex_name:
+                self._vertices.remove(vertex)
+                continue
+
+            # Account for the edges:
+            for edge in list(vertex.get_edges()):
+                if edge.get_destination().get_name() == vertex_name:
+                    vertex.remove_edge(edge.get_name())
 
     def add_edge(self,edge: IEdge, from_vertex_name: Optional[str] = None) -> None:
-        """ Adds an edge object to the graph.
-            If the a vertex name is provided,
-            then the edge will be appeneded to that vertex's adjacency list.
-            Otherwise, the edge is just recorded in the graph's edges
-        """
-        pass
+        """ Add edge if it's connected to the same destination """
+        # for e in self._edges:
+        #     if e.get_name() == edge.get_name() and e.get_destination().get_name() == edge.get_destination().get_name():
+        #         return  # if it is a duplicate, do nothing
+        #     self._edges.append(edge)
+
+        if from_vertex_name:
+            for vertex in self._vertices:
+                if vertex.get_name() == from_vertex_name:
+                    vertex.add_edge(edge)
+                    break
 
     def remove_edge(self, edge_name: str) -> None:
         """ removes any edges with this name from all vertices """
@@ -60,10 +73,13 @@ class Vertex(IVertex):
         self.name = name
 
     def add_edge(self, edge: IEdge[T]) -> None:
-        pass
+        self._edges.append(edge)
 
     def remove_edge(self, edge_name: str) -> None:
-        pass
+        """ removes the edge by name """
+        for e in list(self._edges):
+            if e.get_name() == edge_name:
+                self._edges.remove(e)
 
     def get_edges(self) -> List[IEdge]:
         return list(self._edges)
@@ -95,22 +111,3 @@ class Edge(IEdge):
     
     def set_weight(self, weight: float) -> None:
         self._weight = weight
-
-
-
-
-# -----------------------------------
-# vertices: List[IVertex]= []
-# vertices.append(LuukesVertex())
-# vertices.append(WafflesVertex())
-# for vertex in vertices:
-    # vertex.get_name()
-
-
-# coordinate repo
-
-
-
-# vertex portland
-# vertex desitnation salem
-# edge with that name and that distance
